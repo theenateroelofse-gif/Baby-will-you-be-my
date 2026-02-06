@@ -15,7 +15,7 @@
 
     /* Intro photo */
     #intro {
-      position: absolute;
+      position: fixed; /* fixed so it covers the screen */
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: black;
@@ -35,8 +35,10 @@
     /* Valentine question */
     #valentine {
       opacity: 0;
-      transition: opacity 2s ease;
+      transition: opacity 1s ease;
       padding: 50px 20px;
+      position: relative;
+      z-index: 1;
     }
 
     h1 {
@@ -95,4 +97,35 @@
     }
 
     @keyframes floatUp {
-      0% { transform: translateY(100vh) scale(1); opacity
+      0% { transform: translateY(100vh) scale(1); opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Intro photo (front page) -->
+  <div id="intro">
+    <img src="frontpage.jpg" alt="Us together">
+  </div>
+
+  <!-- Valentine question -->
+  <div id="valentine">
+    <h1>Will you be my Valentine? 💖</h1>
+    <div>
+      <button id="yesBtn">Yes 💕</button>
+      <button id="noBtn">No 😢</button>
+    </div>
+  </div>
+
+  <!-- Gallery photos -->
+  <div id="gallery">
+    <img src="images/photo1.jpg" class="gallery-photo">
+    <img src="images/photo2.jpg" class="gallery-photo">
+    <img src="images/photo3.jpg" class="gallery-photo">
+  </div>
+
+  <!-- Hidden audio -->
+  <audio id="loveSong" src="audio/romantic-song.mp3"></audio>
+
+  <script>
+    // Reveal valentine section when front photo is clicked
