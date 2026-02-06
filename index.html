@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Be My Valentine?</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    /* Intro photo section */
+    #intro {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      cursor: pointer;
+    }
+
+    #intro img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: cover;
+    }
+
+    /* Valentine question section */
+    #valentine {
+      opacity: 0;
+      transition: opacity 2s ease;
+      padding: 50px 20px;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #fff;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2em;
+      color: #fff;
+      margin-bottom: 40px;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      margin: 10px;
+      transition: all 0.3s ease;
+    }
+
+    #yesBtn {
+      background-color: #ff4d6d;
+      color: white;
+    }
+
+    #yesBtn:hover {
+      background-color: #e63950;
+      transform: scale(1.1);
+    }
+
+    #noBtn {
+      background-color: #ccc;
+      color: black;
+      position: relative;
+    }
+
+    .hearts {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      color: #ff4d6d;
+      font-size: 24px;
+      animation: floatUp 4s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(1); opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+    }
+
+    /* Gallery section */
+    #gallery {
+      display: none;
+      padding: 50px 20px;
+      background: rgba(255,255,255,0.2);
+    }
+
+    .gallery-item {
+      margin: 20px auto;
+      max-width: 600px;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .caption {
+      margin-top: 10px;
+      font-size: 1.1em;
+      color: #fff;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <!-- Intro photo -->
+  <div id="intro">
+    <img src="your-photo.jpg" alt="Us together">
+  </div>
+
+  <!-- Valentine question -->
+  <div id="valentine">
+    <h1>Will you be my Valentine? 💖</h1>
+    <p>From the moment we met, every day has felt like Valentine’s Day… but I want to make this one extra special.</p>
+    <div>
+      <button id="yesBtn">Yes 💕</button>
+      <button id="noBtn">No 😢</button>
+    </div>
+    <div class="hearts" id="hearts"></div>
+  </div>
+
+  <!-- Gallery section -->
+  <div id="gallery">
+    <h2 style="color:#fff; text-shadow:2px 2px 5px rgba(0,0,0,0.3);">Our Love Story 📸</h2>
+    <div class="gallery-item">
+      <img src="photo1.jpg" alt="Memory 1">
+      <div class="caption">Our first adventure together 💫</div>
+    </div>
+    <div class="gallery-item">
+      <img src="photo2.jpg" alt="Memory 2">
+      <div class="caption">The smile that stole my heart ❤️</div>
+    </div>
+    <div class="gallery-item">
+      <img src="photo3.jpg" alt="Memory 3">
+      <div class="caption">Every moment with you is magic ✨</div>
+    </div>
+  </div>
+
+  <!-- Hidden audio -->
+  <audio id="loveSong" src="romantic-song.mp3"></audio>
+
+  <script>
+    // Reveal valentine section when photo is clicked
+    document.getElementById('intro').addEventListener('click', () => {
+      document.getElementById('intro').style.display = 'none';
+      document.getElementById('valentine').style.opacity = 1;
+    });
+
+    // Yes button click
+    document.getElementById('yesBtn').addEventListener('click', () => {
+      alert("Yay! You said YES 💖 Can't wait for Valentine’s Day with you!");
+      createHearts();
+      document.getElementById('gallery').style.display = 'block';
+      document.getElementById('loveSong').play(); // Play music
+    });
+
+    // No button runs away
+    const noBtn = document.getElementById('noBtn');
+    noBtn.addEventListener('mouseover', () => {
+      noBtn.style.position = 'absolute';
+      noBtn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+      noBtn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+    });
+
+    // Floating hearts
+    function createHearts() {
+      const heartsContainer = document.getElementById('hearts');
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML = '❤️';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        heartsContainer.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 5000);
+      }
+    }
+  </script>
+</body>
+</html>
