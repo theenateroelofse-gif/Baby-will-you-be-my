@@ -1,4 +1,3 @@
-`html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,7 +13,7 @@
       height: 100vh;
     }
 
-    / Intro photo overlay /
+    /* Intro photo overlay */
     #intro {
       position: fixed;
       top: 0; left: 0;
@@ -34,7 +33,7 @@
       object-fit: cover;
     }
 
-    / Valentine question /
+    /* Valentine question */
     #valentine {
       opacity: 0;
       pointer-events: none;
@@ -80,7 +79,7 @@
       position: relative;
     }
 
-    / Gallery photos /
+    /* Gallery photos */
     #gallery {
       display: none;
       position: relative;
@@ -99,7 +98,7 @@
       to { opacity: 1; }
     }
 
-    / Floating emojis /
+    /* Floating emojis */
     .emoji {
       position: absolute;
       font-size: 30px;
@@ -111,6 +110,91 @@
     }
   </style>
 </head>
+<body>
+  <!-- Intro photo -->
+  <div id="intro">
+    <img src="frontpage.jpg" alt="Frontpage">
+  </div>
+
+  <!-- Valentine question -->
+  <div id="valentine">
+    <h1>Will you be my Valentine? 💖</h1>
+    <div>
+      <button id="yesBtn">Yes 💕</button>
+      <button id="noBtn">No 😢</button>
+    </div>
+  </div>
+
+  <!-- Gallery photos -->
+  <div id="gallery">
+    <img src="images/photo1.jpg" class="gallery-photo">
+    <img src="images/photo2.jpg" class="gallery-photo">
+    <img src="images/photo3.jpg" class="gallery-photo">
+  </div>
+
+  <!-- Hidden audio -->
+  <audio id="loveSong" src="audio/romantic-song.mp3"></audio>
+
+  <script>
+    let noClicks = 0;
+
+    // Intro click → fade out + show Valentine + play music
+    document.getElementById('intro').addEventListener('click', () => {
+      const intro = document.getElementById('intro');
+      intro.style.opacity = 0;
+      setTimeout(() => { intro.style.display = 'none'; }, 1000);
+      document.getElementById('valentine').classList.add('show');
+      document.getElementById('loveSong').play(); // start music
+    });
+
+    // Yes button → show gallery
+    document.getElementById('yesBtn').addEventListener('click', () => {
+      document.getElementById('gallery').style.display = 'block';
+      randomizePhotos();
+    });
+
+    // No button → only explodes on 3rd click, then disappears
+    document.getElementById('noBtn').addEventListener('click', () => {
+      noClicks++;
+      if (noClicks === 3) {
+        let bursts = 0;
+        const interval = setInterval(() => {
+          explodeEmojis();
+          bursts++;
+          if (bursts >= 5) clearInterval(interval);
+        }, 700);
+        // After explosion, remove No button
+        setTimeout(() => {
+          document.getElementById('noBtn').style.display = 'none';
+        }, 4000);
+      }
+    });
+
+    // Randomize photo positions
+    function randomizePhotos() {
+      const photos = document.querySelectorAll('.gallery-photo');
+      photos.forEach(photo => {
+        photo.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+        photo.style.top = Math.random() * (window.innerHeight - 200) + 'px';
+      });
+    }
+
+    // Emoji explosion
+    function explodeEmojis() {
+      for (let i = 0; i < 15; i++) {
+        const emoji = document.createElement('div');
+        emoji.classList.add('emoji');
+        emoji.innerHTML = Math.random() > 0.5 ? '🌻' : '❤️';
+        emoji.style.left = Math.random() * 100 + 'vw';
+        emoji.style.top = '100vh';
+        emoji.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        document.body.appendChild(emoji);
+        setTimeout(() => { emoji.remove(); }, 4000);
+      }
+    }
+  </script>
+</body>
+</htm</head>
 <body>
   <!-- Intro photo -->
   <div id="intro">
@@ -187,3 +271,4 @@
   </script>
 </body>
 </html>
+
