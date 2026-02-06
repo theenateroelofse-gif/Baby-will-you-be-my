@@ -1,131 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Be My Valentine?</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-      text-align: center;
-      overflow: hidden;
-      height: 100vh;
-    }
-
-    /* Intro photo */
-    #intro {
-      position: fixed; /* fixed so it covers the screen */
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 10;
-      cursor: pointer;
-    }
-
-    #intro img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: cover;
-    }
-
-    /* Valentine question */
-    #valentine {
-      opacity: 0;
-      transition: opacity 1s ease;
-      padding: 50px 20px;
-      position: relative;
-      z-index: 1;
-    }
-
-    h1 {
-      font-size: 3em;
-      color: #fff;
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-      margin-bottom: 20px;
-    }
-
-    button {
-      padding: 15px 30px;
-      font-size: 1.2em;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      margin: 10px;
-      transition: all 0.3s ease;
-    }
-
-    #yesBtn {
-      background-color: #ff4d6d;
-      color: white;
-    }
-
-    #yesBtn:hover {
-      background-color: #e63950;
-      transform: scale(1.1);
-    }
-
-    #noBtn {
-      background-color: #ccc;
-      color: black;
-      position: relative;
-    }
-
-    /* Gallery photos randomly placed */
-    #gallery {
-      display: none;
-      position: relative;
-      width: 100%;
-      height: 100vh;
-    }
-
-    .gallery-photo {
-      position: absolute;
-      width: 200px;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
-
-    /* Floating emojis */
-    .emoji {
-      position: absolute;
-      font-size: 30px;
-      animation: floatUp 4s linear forwards;
-    }
-
-    @keyframes floatUp {
-      0% { transform: translateY(100vh) scale(1); opacity: 1; }
-      100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
-    }
-  </style>
-</head>
-<body>
-  <!-- Intro photo (front page) -->
-  <div id="intro">
-    <img src="frontpage.jpg" alt="Us together">
+<!-- Valentine question -->
+<div id="valentine">
+  <h1>Will you be my Valentine? 💖</h1>
+  <div>
+    <button id="yesBtn">Yes 💕</button>
+    <button id="noBtn">No 😢</button>
   </div>
+</div>
 
-  <!-- Valentine question -->
-  <div id="valentine">
-    <h1>Will you be my Valentine? 💖</h1>
-    <div>
-      <button id="yesBtn">Yes 💕</button>
-      <button id="noBtn">No 😢</button>
-    </div>
-  </div>
+<style>
+  #valentine {
+    opacity: 0;
+    pointer-events: none; /* prevent clicks until shown */
+    transition: opacity 1s ease;
+    padding: 50px 20px;
+    position: relative;
+    z-index: 1;
+  }
+  #valentine.show {
+    opacity: 1;
+    pointer-events: auto; /* allow clicks once visible */
+  }
+</style>
 
-  <!-- Gallery photos -->
-  <div id="gallery">
-    <img src="images/photo1.jpg" class="gallery-photo">
-    <img src="images/photo2.jpg" class="gallery-photo">
-    <img src="images/photo3.jpg" class="gallery-photo">
-  </div>
-
-  <!-- Hidden audio -->
-  <audio id="loveSong" src="audio/romantic-song.mp3"></audio>
-
-  <script>
-    // Reveal valentine section when front photo is clicked
+<script>
+  // Reveal valentine section when front photo is clicked
+  document.getElementById('intro').addEventListener('click', () => {
+    document.getElementById('intro').style.display = 'none'; // hide intro
+    document.getElementById('valentine').classList.add('show'); // fade in + clickable
+  });
+</script>
