@@ -1,3 +1,4 @@
+`html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +14,7 @@
       height: 100vh;
     }
 
-    /* Intro photo overlay */
+    / Intro photo overlay /
     #intro {
       position: fixed;
       top: 0; left: 0;
@@ -33,7 +34,7 @@
       object-fit: cover;
     }
 
-    /* Valentine question */
+    / Valentine question /
     #valentine {
       opacity: 0;
       pointer-events: none;
@@ -74,4 +75,115 @@
     }
 
     #noBtn {
-      background
+      background-color: #ccc;
+      color: black;
+      position: relative;
+    }
+
+    / Gallery photos /
+    #gallery {
+      display: none;
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
+    .gallery-photo {
+      position: absolute;
+      width: 200px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    / Floating emojis /
+    .emoji {
+      position: absolute;
+      font-size: 30px;
+      animation: floatUp 4s linear forwards;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(1); opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Intro photo -->
+  <div id="intro">
+    <img src="frontpage.jpg" alt="Us together">
+  </div>
+
+  <!-- Valentine question -->
+  <div id="valentine">
+    <h1>Will you be my Valentine? 💖</h1>
+    <div>
+      <button id="yesBtn">Yes 💕</button>
+      <button id="noBtn">No 😢</button>
+    </div>
+  </div>
+
+  <!-- Gallery photos -->
+  <div id="gallery">
+    <img src="images/photo1.jpg" class="gallery-photo">
+    <img src="images/photo2.jpg" class="gallery-photo">
+    <img src="images/photo3.jpg" class="gallery-photo">
+  </div>
+
+  <!-- Hidden audio -->
+  <audio id="loveSong" src="audio/romantic-song.mp3"></audio>
+
+  <script>
+    // Intro click → fade out + show Valentine
+    document.getElementById('intro').addEventListener('click', () => {
+      const intro = document.getElementById('intro');
+      intro.style.opacity = 0;
+      setTimeout(() => { intro.style.display = 'none'; }, 1000);
+      document.getElementById('valentine').classList.add('show');
+    });
+
+    // Yes button → show gallery + play music
+    document.getElementById('yesBtn').addEventListener('click', () => {
+      document.getElementById('gallery').style.display = 'block';
+      randomizePhotos();
+      document.getElementById('loveSong').play();
+    });
+
+    // No button → emoji shower
+    document.getElementById('noBtn').addEventListener('click', () => {
+      let bursts = 0;
+      const interval = setInterval(() => {
+        explodeEmojis();
+        bursts++;
+        if (bursts >= 5) clearInterval(interval);
+      }, 700);
+    });
+
+    // Randomize photo positions
+    function randomizePhotos() {
+      const photos = document.querySelectorAll('.gallery-photo');
+      photos.forEach(photo => {
+        photo.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+        photo.style.top = Math.random() * (window.innerHeight - 200) + 'px';
+      });
+    }
+
+    // Emoji explosion
+    function explodeEmojis() {
+      for (let i = 0; i < 15; i++) {
+        const emoji = document.createElement('div');
+        emoji.classList.add('emoji');
+        emoji.innerHTML = Math.random() > 0.5 ? '🌻' : '❤️';
+        emoji.style.left = Math.random() * 100 + 'vw';
+        emoji.style.top = '100vh';
+        emoji.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        document.body.appendChild(emoji);
+        setTimeout(() => { emoji.remove(); }, 4000);
+      }
+    }
+  </script>
+</body>
+</html>
