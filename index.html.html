@@ -111,10 +111,10 @@
     });
 
     function explodeEmojis() {
-      const emojis = ["🌻","💖","🌻","💖","🌻","💖","🌻","💖"];
-      for (let i = 0; i < emojis.length; i++) {
+      const emojis = ["🌻","💖"];
+      for (let i = 0; i < 50; i++) {
         const span = document.createElement("span");
-        span.textContent = emojis[i];
+        span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
         span.className = "emoji";
         span.style.left = yesBtn.offsetLeft + yesBtn.offsetWidth/2 + "px";
         span.style.top = yesBtn.offsetTop + yesBtn.offsetHeight/2 + "px";
