@@ -12,6 +12,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden; /* keep flying emojis inside */
     }
     button {
       font-size: 22px;
@@ -37,12 +38,32 @@
       display: none;
     }
     h1 {
-      font-size: 48px; /* Bigger font for the main question */
+      font-size: 48px;
       margin-bottom: 40px;
     }
     #response {
       font-size: 24px;
       margin-top: 30px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      opacity: 0; /* start hidden */
+      transition: opacity 2s ease-in; /* fade-in effect */
+    }
+    .emoji {
+      position: absolute;
+      font-size: 32px;
+      animation: floatUp 3s ease-out forwards;
+    }
+    @keyframes floatUp {
+      0% {
+        transform: translate(0,0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--x), var(--y)) scale(1.5);
+        opacity: 0;
+      }
     }
   </style>
 </head>
@@ -76,15 +97,35 @@
     });
 
     yesBtn.addEventListener("click", () => {
-      response.textContent = "Yay! 💕 You just made me the happiest!";
+      response.textContent = "Yay! 💕 You just made me the happiest! I'm truly happy to spend another year with you as my Valentine and I want you to know I will always love you.";
+      response.style.opacity = 1; // trigger fade-in
+      explodeEmojis();
     });
 
     noBtn.addEventListener("click", () => {
       response.textContent = "Wait... 😢 That can’t be right. Try again!";
+      response.style.opacity = 1;
       noBtn.style.position = "absolute";
       noBtn.style.top = Math.random() * window.innerHeight + "px";
       noBtn.style.left = Math.random() * window.innerWidth + "px";
     });
+
+    function explodeEmojis() {
+      const emojis = ["🌻","💖","🌻","💖","🌻","💖","🌻","💖"];
+      for (let i = 0; i < emojis.length; i++) {
+        const span = document.createElement("span");
+        span.textContent = emojis[i];
+        span.className = "emoji";
+        span.style.left = yesBtn.offsetLeft + yesBtn.offsetWidth/2 + "px";
+        span.style.top = yesBtn.offsetTop + yesBtn.offsetHeight/2 + "px";
+        span.style.setProperty("--x", (Math.random() * 300 - 150) + "px");
+        span.style.setProperty("--y", (Math.random() * -400) + "px"); // float upward
+        document.body.appendChild(span);
+
+        // remove after animation
+        setTimeout(() => span.remove(), 3000);
+      }
+    }
   </script>
 </body>
 </html>
