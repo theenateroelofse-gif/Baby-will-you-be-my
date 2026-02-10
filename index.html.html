@@ -25,19 +25,43 @@
       background-color: gray;
       color: white;
     }
+    #startBtn {
+      background-color: purple;
+      color: white;
+    }
+    #mainContent {
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <h1>💖 Will you be my Valentine? 💖</h1>
-  <button id="yesBtn">Yes</button>
-  <button id="noBtn">No</button>
+  <!-- Opening screen -->
+  <div id="opening">
+    <h1>💌 Tap to open your surprise 💌</h1>
+    <button id="startBtn">Start</button>
+  </div>
 
-  <p id="response"></p>
+  <!-- Main Valentine’s question -->
+  <div id="mainContent">
+    <h1>💖 Will you be my Valentine? 💖</h1>
+    <button id="yesBtn">Yes</button>
+    <button id="noBtn">No</button>
+    <p id="response"></p>
+  </div>
 
   <script>
+    const startBtn = document.getElementById("startBtn");
+    const opening = document.getElementById("opening");
+    const mainContent = document.getElementById("mainContent");
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
     const response = document.getElementById("response");
+
+    // Reveal the Valentine’s question
+    startBtn.addEventListener("click", () => {
+      opening.style.display = "none";
+      mainContent.style.display = "block";
+    });
 
     yesBtn.addEventListener("click", () => {
       response.textContent = "Yay! 💕 You just made me the happiest!";
@@ -45,7 +69,6 @@
 
     noBtn.addEventListener("click", () => {
       response.textContent = "Wait... 😢 That can’t be right. Try again!";
-      // Move the "No" button around to make it harder to click
       noBtn.style.position = "absolute";
       noBtn.style.top = Math.random() * window.innerHeight + "px";
       noBtn.style.left = Math.random() * window.innerWidth + "px";
