@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Be My Valentine?</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      background: pink;
+      margin-top: 100px;
+    }
+    button {
+      font-size: 20px;
+      padding: 10px 20px;
+      margin: 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #yesBtn {
+      background-color: red;
+      color: white;
+    }
+    #noBtn {
+      background-color: gray;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>💖 Will you be my Valentine? 💖</h1>
+  <button id="yesBtn">Yes</button>
+  <button id="noBtn">No</button>
+
+  <p id="response"></p>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const response = document.getElementById("response");
+
+    yesBtn.addEventListener("click", () => {
+      response.textContent = "Yay! 💕 You just made me the happiest!";
+    });
+
+    noBtn.addEventListener("click", () => {
+      response.textContent = "Wait... 😢 That can’t be right. Try again!";
+      // Move the "No" button around to make it harder to click
+      noBtn.style.position = "absolute";
+      noBtn.style.top = Math.random() * window.innerHeight + "px";
+      noBtn.style.left = Math.random() * window.innerWidth + "px";
+    });
+  </script>
+</body>
+</html>
