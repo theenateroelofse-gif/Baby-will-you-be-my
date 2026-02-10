@@ -12,7 +12,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden; /* keep flying emojis inside */
+      overflow: hidden;
     }
     button {
       font-size: 22px;
@@ -22,33 +22,20 @@
       border-radius: 8px;
       cursor: pointer;
     }
-    #yesBtn {
-      background-color: red;
-      color: white;
-    }
-    #noBtn {
-      background-color: gray;
-      color: white;
-    }
-    #startBtn {
-      background-color: purple;
-      color: white;
-    }
-    #mainContent {
-      display: none;
-    }
-    h1 {
-      font-size: 48px;
-      margin-bottom: 40px;
-    }
+    #yesBtn { background-color: red; color: white; }
+    #noBtn { background-color: gray; color: white; }
+    #startBtn { background-color: purple; color: white; }
+    #proceedBtn { background-color: orange; color: white; }
+    #opening, #confirmation, #mainContent { display: none; }
+    h1 { font-size: 48px; margin-bottom: 40px; }
     #response {
       font-size: 24px;
       margin-top: 30px;
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
-      opacity: 0; /* start hidden */
-      transition: opacity 2s ease-in; /* fade-in effect */
+      opacity: 0;
+      transition: opacity 2s ease-in;
     }
     .emoji {
       position: absolute;
@@ -56,22 +43,22 @@
       animation: floatUp 3s ease-out forwards;
     }
     @keyframes floatUp {
-      0% {
-        transform: translate(0,0) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(var(--x), var(--y)) scale(1.5);
-        opacity: 0;
-      }
+      0% { transform: translate(0,0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--x), var(--y)) scale(1.5); opacity: 0; }
     }
   </style>
 </head>
 <body>
   <!-- Opening screen -->
-  <div id="opening">
+  <div id="opening" style="display:block;">
     <h1>💌 Tap to open your surprise 💌</h1>
     <button id="startBtn">Start</button>
+  </div>
+
+  <!-- Confirmation screen -->
+  <div id="confirmation">
+    <h1>🤔 Are you sure you want to proceed? 🤔</h1>
+    <button id="proceedBtn">Yes, I’m sure!</button>
   </div>
 
   <!-- Main Valentine’s question -->
@@ -85,23 +72,33 @@
   <script>
     const startBtn = document.getElementById("startBtn");
     const opening = document.getElementById("opening");
+    const confirmation = document.getElementById("confirmation");
+    const proceedBtn = document.getElementById("proceedBtn");
     const mainContent = document.getElementById("mainContent");
     const yesBtn = document.getElementById("yesBtn");
     const noBtn = document.getElementById("noBtn");
     const response = document.getElementById("response");
 
-    // Reveal the Valentine’s question
+    // Step 1: Opening screen → Confirmation
     startBtn.addEventListener("click", () => {
       opening.style.display = "none";
+      confirmation.style.display = "block";
+    });
+
+    // Step 2: Confirmation → Main Valentine’s question
+    proceedBtn.addEventListener("click", () => {
+      confirmation.style.display = "none";
       mainContent.style.display = "block";
     });
 
+    // Yes button
     yesBtn.addEventListener("click", () => {
       response.textContent = "Yay! 💕 You just made me the happiest! I'm truly happy to spend another year with you as my Valentine and I want you to know I will always love you.";
-      response.style.opacity = 1; // trigger fade-in
+      response.style.opacity = 1;
       explodeEmojis();
     });
 
+    // No button
     noBtn.addEventListener("click", () => {
       response.textContent = "Wait... 😢 That can’t be right. Try again!";
       response.style.opacity = 1;
@@ -110,6 +107,7 @@
       noBtn.style.left = Math.random() * window.innerWidth + "px";
     });
 
+    // Emoji explosion
     function explodeEmojis() {
       const emojis = ["🌻","💖"];
       for (let i = 0; i < 50; i++) {
@@ -119,10 +117,8 @@
         span.style.left = yesBtn.offsetLeft + yesBtn.offsetWidth/2 + "px";
         span.style.top = yesBtn.offsetTop + yesBtn.offsetHeight/2 + "px";
         span.style.setProperty("--x", (Math.random() * 300 - 150) + "px");
-        span.style.setProperty("--y", (Math.random() * -400) + "px"); // float upward
+        span.style.setProperty("--y", (Math.random() * -400) + "px");
         document.body.appendChild(span);
-
-        // remove after animation
         setTimeout(() => span.remove(), 3000);
       }
     }
